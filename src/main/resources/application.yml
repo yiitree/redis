@@ -1,0 +1,28 @@
+spring:
+  # redis
+  redis:
+    database: 0 # Redis 数据库索引分片（默认为 0）
+    host: 47.98.115.197 # Redis 服务器地址
+    port: 6379 # Redis 服务器连接端口
+    password:  # Redis 服务器连接密码（默认为空）
+    timeout:  5000  # 连接超时，单位ms
+    lettuce:
+      pool:
+        max-active: 8 # 连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-wait: -1 # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-idle: 8 # 连接池中的最大空闲连接 默认 8
+        min-idle: 0 # 连接池中的最小空闲连接 默认 0
+  # spring缓存---这里使用redis作为缓存
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true   # 缓存null，防止缓存穿透
+      use-key-prefix: true  # 是否使用缓存前缀
+      key-prefix: boot-launch  # 缓存前缀，缓存按应用分类
+      time-to-live:  10 # 3600  # 缓存到期时间，默认不主动删除永远不到期
+caching:
+  ttlmap:
+    # 自定义缓存失效时间，没有设置的走上面默认时间
+    article: 50
+    xxx: 20
+    yyy: 50
