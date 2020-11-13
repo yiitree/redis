@@ -16,26 +16,25 @@ class RedisApplicationTests {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    ValueOperations<String,Object> valueOperations = redisTemplate.opsForValue();//操作字符串
-    HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();//操作 hash
-    ListOperations<String, Object> listOperations = redisTemplate.opsForList();//操作 list
-    SetOperations<String, Object> setOperations = redisTemplate.opsForSet();//操作 set
-    ZSetOperations<String, Object> zSetOperations = redisTemplate.opsForZSet();//操作有序 set
 
     @Test
     public void Value(){
+        ValueOperations<String,Object> valueOperations = redisTemplate.opsForValue();//操作字符串
+
         // 获取hash操作对象
         Person person = new Person("boke","byrant");
         person.setAddress(new Address("南京","中国"));
         //向redis数据库保存数据(key,value),数据有效期20秒
-        valueOperations.set("player:1",person,200, TimeUnit.SECONDS); //20秒之后数据消失
+        valueOperations.set("player1",person,20000, TimeUnit.SECONDS); //20秒之后数据消失
         //根据key把数据取出来
-        Person getBack = (Person)valueOperations.get("player:1");
+        Person getBack = (Person)valueOperations.get("player1");
         System.out.println(getBack);
     }
 
     @Test
     public void Set() {
+        SetOperations<String, Object> setOperations = redisTemplate.opsForSet();//操作 set
+
         Person person = new Person("kobe","byrant");
         Person person2 = new Person("curry","stephen");
 
@@ -47,6 +46,8 @@ class RedisApplicationTests {
 
     @Test
     public void Hash() {
+        HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();//操作 hash
+
         Person person = new Person("kobe","byrant");
         //使用hash的方法存储对象数据（一个属性一个属性的存，下节教大家简单的方法）
         hashOperations.put("hash:player","firstname",person.getFirstname());
@@ -59,6 +60,8 @@ class RedisApplicationTests {
 
     @Test
     public void List() {
+        ListOperations<String, Object> listOperations = redisTemplate.opsForList();//操作 list
+
         //将数据对象放入队列
         listOperations.leftPush("list:player",new Person("kobe","byrant"));
         listOperations.leftPush("list:player",new Person("Jordan","Mikel"));

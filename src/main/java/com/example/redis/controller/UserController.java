@@ -19,6 +19,15 @@ import javax.annotation.Resource;
 @RequestMapping("/")
 public class UserController {
 
+    public static final String CACHE_OBJECT = "article";  //缓存名称
+
+    @GetMapping("/9/{id}")
+    @Cacheable(value = CACHE_OBJECT,key = "#id")   //这里的value和key参考下面的redis数据库截图理解
+    public Person getArticle(String id) {
+        System.out.println(1);
+        return new Person(id,"xxx");
+    }
+
     //value属性指定Cache名称，如果名称相同，会调用同一个cache
     @Cacheable(value="article")
     @GetMapping("/1/{id}")
