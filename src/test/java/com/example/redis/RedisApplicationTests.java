@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 class RedisApplicationTests {
 
-    @Resource
+    @Resource(name = "myRedisTemplate")
     private RedisTemplate<String, Object> redisTemplate;
 
 
